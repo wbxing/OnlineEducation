@@ -65,7 +65,7 @@ public class TeacherController {
         }
     }
 
-    @ApiOperation(value = "根据ID删除讲师")
+    @ApiOperation(value = "根据 ID 删除讲师")
     @DeleteMapping("{id}")
     public Result removeById(
             @ApiParam(name = "id", value = "讲师ID", required = true)

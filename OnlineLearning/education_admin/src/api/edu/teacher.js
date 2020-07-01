@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-const teacher_api = "/teacher"
+const teacher_api = '/teacher'
 
 export default {
   getList() {
@@ -26,6 +26,19 @@ export default {
     return request({
       url: `${teacher_api}/save`,
       method: 'post',
+      data: teacher
+    })
+  },
+  selectById(id) {
+    return request({
+      url: `${teacher_api}/${id}`,
+      method: 'get'
+    })
+  },
+  updateById(teacher) {
+    return request({
+      url: `${teacher_api}/update`,
+      method: 'put',
       data: teacher
     })
   }

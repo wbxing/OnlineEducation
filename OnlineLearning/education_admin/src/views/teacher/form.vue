@@ -18,10 +18,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="讲师资历">
-        <el-input v-model="teacher.career" />
+        <el-input v-model="teacher.intro" />
       </el-form-item>
       <el-form-item label="讲师简介">
-        <el-input v-model="teacher.intro" :rows="10" type="textarea" />
+        <el-input v-model="teacher.career" :rows="10" type="textarea" />
       </el-form-item>
 
       <!-- 讲师头像：TODO -->
@@ -35,25 +35,55 @@
 
 <script>
 // 引用 teacher.js
-import teacher from "@/api/edu/teacher"
+import teacher from '@/api/edu/teacher'
+// 定义初始化变量
+const defaultForm = {
+  name: '',
+  sort: 0,
+  level: '',
+  career: '',
+  intro: '',
+  avatar: ''
+}
+
 export default {
   data() {
     return {
-      teacher: {
-        name: '',
-        sort: 0,
-        level: 1,
-        career: '',
-        intro: '',
-        avatar: ''
-      },
+      teacher: defaultForm,
       saveBtnDisabled: false
     }
   },
-  created() {},
+  watch: {
+    $route(to, from) {
+      // 判断路由中是否存在 id 参数
+      // 不存在说明是新增
+      // 存在说明是修改
+      this.init()
+    }
+  },
+  created() {
+    // 执行此方法获取参数
+    this.init()
+  },
   methods: {
+    init() {
+      if (this.$route.params && this.$route.params.id) {
+        const id = this.$route.params.id
+        this.selectById(id)
+      } else {
+        // 深拷贝和浅拷贝
+        this.teacher = { ...defaultForm }
+      }
+    },
     saveOrUpdate() {
       this.saveBtnDisabled = true
+      if (!this.teacher.id) {
+        this.saveData()
+      } else {
+        this.updateData()
+      }
+    },
+    saveData() {
       teacher.save(this.teacher)
         .then(response => {
           return this.$message({
@@ -69,6 +99,36 @@ export default {
           this.$message({
             type: 'error',
             message: '保存失败'
+          })
+        })
+    },
+    selectById(id) {
+      teacher.selectById(id)
+        .then(response => {
+          this.teacher = response.data.teacher
+        })
+        .catch(response => {
+          this.$message({
+            type: 'error',
+            message: '获取失败'
+          })
+        })
+    },
+    updateData() {
+      teacher.updateById(this.teacher)
+        .then(response => {
+          return this.$message({
+            type: 'success',
+            message: '修改成功'
+          })
+        })
+        .then(resposne => {
+          this.$router.push({ path: '/teacher/list' })
+        })
+        .catch((response) => {
+          this.$message({
+            type: 'error',
+            message: '修改失败'
           })
         })
     }
