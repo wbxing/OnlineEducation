@@ -6,6 +6,8 @@
         <module>education_teacher</module>
         <module>../demo_mp</module>
         <module>education_common</module>
+        <module>../demo_oss</module>
+        <module>education_oss</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
