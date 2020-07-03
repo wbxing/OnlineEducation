@@ -18,7 +18,7 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private static final String[] TYPE_STRING = {".png", ".jpg", ".bmp", ".gif", ".jpeg"};
+    private static final String[] TYPE_STRING = {".png", ".jpg", ".jpeg", ".bmp", ".gif"};
     private final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
@@ -31,10 +31,12 @@ public class FileServiceImpl implements FileService {
                     ConstantPropertiesUtil.ACCESS_KEY_ID,
                     ConstantPropertiesUtil.ACCESS_KEY_SECRET);
             boolean flag = false;
+            // 获取文件名称
+            String filename = file.getOriginalFilename();
 
             // 判断文件格式
             for (String type : TYPE_STRING) {
-                if (StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), type)) {
+                if (StringUtils.endsWithIgnoreCase(filename, type)) {
                     flag = true;
                     break;
                 }
@@ -45,14 +47,12 @@ public class FileServiceImpl implements FileService {
             // 判断文件内容
             BufferedImage image = ImageIO.read(file.getInputStream());
             if (image != null) {
-                logger.error("image Height: " + image.getHeight());
-                logger.error("image Width: " + image.getWidth());
+                logger.debug("image Height: " + image.getHeight());
+                logger.debug("image Width: " + image.getWidth());
             } else {
                 return "文件内容不正确";
             }
 
-            // 获取文件名称
-            String filename = file.getOriginalFilename();
             // 文件名字: xxx.xxx.jpg
             // 获取后缀名
             String suffix = filename.substring(filename.lastIndexOf("."));
@@ -70,8 +70,6 @@ public class FileServiceImpl implements FileService {
             assert ossClient != null;
             ossClient.shutdown();
         }
-
         return url;
-
     }
 }
