@@ -8,6 +8,7 @@
         <module>education_common</module>
         <module>../demo_oss</module>
         <module>education_oss</module>
+        <module>../demo_poi</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
