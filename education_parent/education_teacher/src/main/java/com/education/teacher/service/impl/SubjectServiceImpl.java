@@ -34,12 +34,12 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
 
     // 日志输出
     private final Logger logger = LoggerFactory.getLogger(SubjectServiceImpl.class);
-    // 存储错误信息的集合
-    List<String> message = new ArrayList<>();
 
     @Override
     public List<String> importExcel(MultipartFile file) {
         InputStream in = null;
+        // 存储错误信息的集合
+        List<String> message = new ArrayList<>();
         try {
             // 获取文件流
             in = file.getInputStream();
