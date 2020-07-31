@@ -25,19 +25,6 @@ export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
-    }]
-  },
-
-  // 首页
   // {
   //   path: '/',
   //   component: Layout,
@@ -46,11 +33,23 @@ export const constantRouterMap = [
   //   hidden: true,
   //   children: [{
   //     path: 'dashboard',
-  //     component: () => import('@/views/dashboard/index'),
-  //     meta: { title: '在线教育后台首页', icon: 'dashboard' }
+  //     component: () => import('@/views/dashboard/index')
   //   }]
   // },
 
+  // 首页
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    name: 'Dashboard',
+    hidden: true,
+    children: [{
+      path: 'dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '在线教育后台首页', icon: 'dashboard' }
+    }]
+  },
   {
     path: '/teacher',
     component: Layout,
@@ -79,7 +78,27 @@ export const constantRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/subject',
+    component: Layout,
+    redirect: '/subject/list',
+    name: '课程管理',
+    meta: { title: 'Subject', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '课程列表',
+        component: () => import('@/views/subject/list'),
+        meta: { title: '课程列表', icon: 'tree' }
+      },
+      {
+        path: 'import',
+        name: '课程导入',
+        component: () => import('@/views/subject/import'),
+        meta: { title: '课程导入', icon: 'table' }
+      }
+    ]
+  },
   {
     path: '/example',
     component: Layout,
